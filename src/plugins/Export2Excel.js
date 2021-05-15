@@ -1,7 +1,8 @@
 /* eslint-disable */
 import { saveAs } from 'file-saver'
 // import XLSX from 'xlsx'
-import XLSX from 'xlsx-style'
+// import XLSX from 'xlsx-style'
+import { XLSX } from 'xlsx-style';
 // 參考網址：
 // https://liyang5945.github.io/2020/02/27/%E5%89%8D%E7%AB%AF/%E4%BD%BF%E7%94%A8js-xlsx%E6%8F%92%E4%BB%B6%E5%AF%BC%E5%87%BA%E5%A4%9A%E7%BA%A7%E8%A1%A8%E5%A4%B4excel/
 

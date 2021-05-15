@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React,{useEffect, useState} from 'react';
 import { Button } from 'antd';
 import {export_json_to_excel} from "../../plugins/Export2Excel"
 
@@ -52,19 +52,28 @@ const getSheetData=(json:any,columns:any)=>{
 const Luckysheet=(props:any)=>{
   let bgConfig:any = {}
   let percentageReg = /%$/;
-  let json = [
+  let oldjson = [
     {name:"bobo",age:12,like:"swim"},
     {name:"小明",age:22,like:"打篮球"},
     {name:"小明",age:22,like:"打篮球"},
     {name:"小明",age:22,like:"打篮球"},
   ]
-  let columns = [
+  let oldcolumns = [
     {label:"姓名",key:"name"},
     {label:"爱好",key:"like"},
     {label:"年龄",key:"age"},
   ]
+  let columns = props.columns&&props.columns.length?props.columns:oldcolumns
+  let json = props.tableData&&props.tableData.length?props.tableData:oldjson
+  console.log('columns',columns)
+  console.log('json',json)
+  // const  [columns,setColumns] = useState(oldcolumns)
+
   let data = getSheetData(json,columns)
   useEffect(()=>{
+    init()
+  },[columns,json])
+  const init=()=>{
     const luckysheet = window.luckysheet;
     luckysheet.create({
         container: "luckysheet",
@@ -99,9 +108,10 @@ const Luckysheet=(props:any)=>{
         functionButton:'<button id="download" class="btn btn-primary" style="padding:3px 6px;font-size: 12px;margin-right: 10px;">下载</button> <button class="btn btn-primary btn-danger" style=" padding:3px 6px; font-size: 12px; margin-right: 10px;">导入</button> <button class="btn btn-primary btn-primary" style=" padding:3px 6px; font-size: 12px; margin-right: 10px;">保存</button>',
         // userInfo:false, // 不展示用户信息
     });
-  },[])
+  }
   useEffect(() => {
 		let listener = ()=>{
+      console.log("listen")
 		}
 		window.addEventListener('resize', listener)
 		return () => {
@@ -115,15 +125,16 @@ const Luckysheet=(props:any)=>{
     width: '100%',
     height: '100%',
     left: '0px',
-    top: '0px'
+    top: '0px',
   }
   //Rnd移动的位置及大小
   let RndStyles:any={
-    width:'100%',
-    height:'500px',
+    width:"100%",
+    height:500,
     position: 'relative',
     // top:'100px'
   }
+  console.log('RndStyle1s',RndStyles)
   useEffect(()=>{
     let downloadDom:any = document.getElementById("download")
     if(downloadDom){
@@ -152,7 +163,7 @@ const Luckysheet=(props:any)=>{
       }
     }
     console.log('arr',arr)
-    handledownload(arr)
+    // handledownload(arr)
   }
   const handledownload=(arr:any)=>{
      const multiHeader =

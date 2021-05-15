@@ -1,0 +1,44 @@
+.left{
+  width: 200px;
+  background-color: #24292e;
+  height: 100vh;
+  position: absolute;
+}
+.main{
+  width: calc(100% - 400px);
+  height: 100vh;
+  position: absolute;
+  left: 200px;
+}
+.right{
+  width: 200px;
+  background-color: #24292e;
+  height: 100vh;
+  position: fixed;
+  right: 0px;
+  top: 0px;
+}
+/* .topMenu{
+  height: 40px;
+} */
+.mainCanvas{
+  border: 1px solid #24292e;
+  /* height: calc(100vh - 50px); */
+  height: calc(100vh - 1px);
+}
+.mainColor{
+  color: white;
+}
+.block{
+  background-color: #33383e;
+  color: white;
+  padding: 5px;
+  margin:5px;
+  width: 80px;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.inline{
+  display: inline-block;
+}
