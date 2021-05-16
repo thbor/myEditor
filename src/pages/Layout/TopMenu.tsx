@@ -4,6 +4,7 @@ import { useState,useEffect } from "react";
 import store from "../../redux/store"
 import { setUI,setFullScreen,setSaveJson } from "../../redux/action";
 import { FullscreenOutlined ,FullscreenExitOutlined, PropertySafetyFilled} from "@ant-design/icons";
+import {history} from "umi"
 const {Option} = Select
 export default function TopMenu(props:any) {
   const [currentUI,setCurrentUI] = useState("Antd")
@@ -29,6 +30,10 @@ export default function TopMenu(props:any) {
   const saveDoms=()=>{
     console.log("props.json",props.json)
     let id = (Math.random()+"").slice(3)
+    //通过json反向遍历生成代码
+    let saveJson = props.json;
+    sessionStorage.setItem("saveJson",JSON.stringify(saveJson))
+    history.push('/mybord/id='+id)
     
   }
   return (
