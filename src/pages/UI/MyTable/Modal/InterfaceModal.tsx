@@ -16,7 +16,7 @@ export default function InterfaceModal(props:any) {
   let tokenstr = {Authorization: `Bearer ${token}`}
 
   useEffect(()=>{
-    console.log("init初始化")
+    console.log("init初始化",props)
     if(params){
       let paramsJSON = JSON.parse(params)
       console.log('paramsJSON',paramsJSON)

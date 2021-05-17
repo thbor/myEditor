@@ -5,7 +5,7 @@
   position: absolute;
 }
 .main{
-  width: calc(100% - 400px);
+  width: calc(100% - 200px);
   height: 100vh;
   position: absolute;
   left: 200px;

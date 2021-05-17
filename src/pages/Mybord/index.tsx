@@ -1,4 +1,5 @@
 import React from "react"
+import {Rnd} from "react-rnd"
 const json = require("../Common/ui") 
 let uiJson = json.default
 console.log('123',uiJson)
@@ -20,8 +21,25 @@ const Mybord=()=>{
   }
   return (
     <div>
-      {saveJson.map((item:any,index:number)=>(
-        <div key={index}>{getComponent(item)}</div>
+      {saveJson&&saveJson.length&&saveJson.map((item:any,index:number)=>(
+         <Rnd
+         style={{background:'white'}}
+         key={item.id}
+         id={item.id}
+         disableDragging={true}
+         enableResizing={false}
+         default={{
+           x: item.x||0,
+           y: item.y||0,
+           width:item.name.indexOf("table")>-1?400:item.style.width||0,
+           height:item.name.indexOf("table")>-1?400:item.style.height||0,
+         }}
+         bounds="parent"
+       >
+         <div style={{padding:20,width:'100%',height:'100%'}}>
+           {getComponent(item)}
+         </div>
+       </Rnd>
       ))}
     </div>
   )

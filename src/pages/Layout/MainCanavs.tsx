@@ -7,16 +7,20 @@ import { Rnd } from "react-rnd";
 import Luckysheet from "../Luckysheet/index"
 import ComponentSettings from './ComponentSettings';
 import store from "../../redux/store"
+import { Drawer } from 'antd';
+import CommonDrawer from './../Common/CommonDrawer';
+import CommonModal from './../Common/CommonModal';
 export default function MainCanavs(props:any) {
-  
-  console.log("json1",props.json)
+  const [drawerVisible,setDrawerVisible] = useState(false)
+  const [currentItem,setCurrentItem] = useState({})
+  const [propsJson,setPropsJson] = useState([])
   useEffect(()=>{
   console.log("json2",props.json)
+  setPropsJson(props.json)
   },[props.json])
-  // let json = [
-  //   {id:"1",x:0,y:0,width:"500px",height:"500px"},
-  // ]
+ 
   const clickOne=(item:any,index:number)=>{
+    console.log('123')
     findElement(item,index)
   }
   const resizeOne=(e:any,item:any,index:number)=>{
@@ -69,17 +73,26 @@ export default function MainCanavs(props:any) {
       }
     }
   }
-  console.log("props.json",props.json)
-
+  const changeAttr=(item:any)=>{
+    // setDrawerVisible(true)
+    setCurrentItem(item)
+  }
+  const emitSuccess=(componentChilren:any)=>{
+    setCurrentItem(componentChilren)
+    // setDrawerVisible(false)
+    console.log('currentItem',currentItem)
+    props.emitChangeJson(currentItem)
+  }
+  console.log("props.json",propsJson)
   return (
     <div>
       <div className="topMenu" >
-        <TopMenu json={props.json} />
+        <TopMenu json={propsJson} />
       </div>
       <div className="mainCanvas">
       <div style={{width:'100%',height:'calc(100vh - 2px)',padding:'10px'}} className="content">
       <div style={{background:'white',height:'100%'}}>
-        {props.json&&props.json.length&&props.json.map((item:any,index:number)=>(
+        {propsJson&&propsJson.length&&propsJson.map((item:any,index:number)=>(
           <Rnd
           onClick={()=>clickOne(item,index)}
           onResize={(e)=>resizeOne(e,item,index)}
@@ -101,20 +114,31 @@ export default function MainCanavs(props:any) {
           <div style={{float:'right',position:'fixed',zIndex:999}}>
             <a style={{marginRight:10}} onClick={()=>showCssChange(index)}>编辑</a>
             <a style={{color:'red',marginRight:10}} onClick={()=>deleteOne(index)}>删除</a>
-            <a style={item.disableDragging?{display:'none'}:{}} onClick={()=>save(index)}>保存</a>
+            <a style={item.disableDragging?{display:'none'}:{marginRight:10}} onClick={()=>save(index)}>保存</a>
+            <a style={item.disableDragging?{display:'none'}:{marginRight:10}} onClick={()=>changeAttr(item)}>屬性設置</a>
+
           </div>
           <div style={{padding:20,width:'100%',height:'100%'}}>
             {<item.Component styles={{width:'100%',height:'100%',overflow:'hidden'}} item={item} />}
           </div>
       </Rnd>
         ))}
-          <div className="right" style={store.getState().fullScreen?{display:'none'}:{}}>
+          {/* <div className="right" style={store.getState().fullScreen?{display:'none'}:{}}>
             <ComponentSettings/>
-          </div>
+          </div> */}
         </div>
       </div>
 
       </div>
+      {/* {drawerVisible&&
+      <CommonDrawer
+      currentItem={currentItem}
+      visible={drawerVisible}
+      emitClose={()=>setDrawerVisible(false)}
+      // content={currentItem.cssContent}
+      // content={<ComponentSettings item={currentItem} emitSuccess={(componentChilren:any)=>emitSuccess(componentChilren)}/>}
+      />
+      } */}
 
     </div>
   );

@@ -11,7 +11,7 @@ export default function StaticTable(props:any){
   const [showColumns,setShowColumns] = useState<boolean>(false)
   const [dropVisible,setDropVisible] = useState<boolean>(false)
   const [scroll,setScroll] = useState<any>({})
-  const [interfaceVisible,setInterfaceVisible] = useState<any>({})
+  const [interfaceVisible,setInterfaceVisible] = useState<boolean>(false)
   
 
 const columns = [
@@ -196,7 +196,7 @@ const emitChangePage=(currentPage:number,pageSize:number)=>{
 }
   return (
     <div style={{width:'100%',height:'100%',overflow:'hidden'}}>
-      <div style={props.item.disableDragging?{display:'none'}:{position:'fixed',top:'0px',float:'left',cursor:'pointer',height:"0px",left:120}} onClick={columnsFilter}>
+      <div style={props.item.disableDragging?{display:'none'}:{position:'fixed',top:'0px',float:'left',cursor:'pointer',height:"0px",left:160}} onClick={columnsFilter}>
       <Dropdown overlay={menu} trigger={['click']} visible={dropVisible&&!props.item.disableDragging} className="inline" >
       <a className="ant-dropdown-link" onClick={e => {e.preventDefault();setDropVisible(!dropVisible)}}>
         列设置
@@ -204,7 +204,7 @@ const emitChangePage=(currentPage:number,pageSize:number)=>{
       </Dropdown>
       {/* <div style={{marginLeft:5}} className="inline" onClick={bindColumns}>列绑定</div> */}
       </div>
-      <div style={props.item.disableDragging?{display:'none'}:{position:'fixed',top:'0px',float:'left',cursor:'pointer',height:"0px",left:180}} onClick={columnsFilter}>
+      <div style={props.item.disableDragging?{display:'none'}:{position:'fixed',top:'0px',float:'left',cursor:'pointer',height:"0px",left:220}} onClick={columnsFilter}>
       <a className="ant-dropdown-link" onClick={()=>setInterfaceVisible(true)}>
         接口设置
       </a>
@@ -217,13 +217,13 @@ const emitChangePage=(currentPage:number,pageSize:number)=>{
       emitChangePage={emitChangePage}
       />
       {/* 接口设置 */}
-      <InterfaceModal
+      {interfaceVisible&&<InterfaceModal
       currentPage={currentPage}
       pageSize={pageSize}
       visible={interfaceVisible}
       emitClose={()=>setInterfaceVisible(false)}
       emitTableParams={emitTableParams}
-      />
+      />}
       {/* 接口设置 end */}
    
     </div>

@@ -1,59 +1,35 @@
-import React, { useState } from 'react';
-import { Upload, message, Button,Input } from 'antd';
+import React from 'react';
+import {  Button,Input } from 'antd';
 export default function ComponentSettings(props:any) {
-  const [columnsJson,setColumnsJson] = useState<any[]>([])
-  const [tableDataJson,setTableDataJson] = useState<any[]>([])
-  const changeFile=(event:any)=>{
-    console.log(event)
-    let file = event.target.files[0]
-    // var file = event
-    if(!!file){
-      var reader=new FileReader();
-      reader.readAsText(file,"UTF-8");//gbk编码
-      reader.onload=function () {
-        console.log(this.result);//打印检查
-        if(this.result&&typeof this.result==="string"){
-          let columns = JSON.parse(this.result)
-          setColumnsJson(columns)
-          props.emitChangeColumns(columns)
-        }else{
-          message.error("上传数据有误")
-        }
-      };
-    }else{
-      message.error("上传数据有误")
-    }
-  }
-  const changeDataFile=(event:any)=>{
-    console.log(event)
-    let file = event.target.files[0]
-    // var file = event
-    if(!!file){
-      var reader=new FileReader();
-      reader.readAsText(file,"UTF-8");//gbk编码
-      reader.onload=function () {
-        console.log(this.result);//打印检查
-        if(this.result&&typeof this.result==="string"){
-          let data = JSON.parse(this.result)
-          setTableDataJson(data)
-          props.emitChangeTableData(data)
-        }else{
-          message.error("上传数据有误")
-        }
-      };
-    }else{
-      message.error("上传数据有误")
-    }
-  }
+  console.log(props.item)
+  let componentChilren = props.item.componentChilren    //組件內的值，點擊事件等
  
+  console.log('componentChilren',componentChilren)
+
+  let keys = componentChilren&&Object.keys(componentChilren)
+ 
+  const changeValue=(e:any,key:string)=>{
+    componentChilren[key] = e.target.value 
+  }
+  const saveAttr=()=>{
+    console.log('componentChilren',componentChilren)
+    props.emitSuccess(componentChilren)
+  }
   return (
-    <div style={{color:'white'}}>
+    <div>
       <div className="center">組件樣式修改及數據綁定</div>
-      {/* <div>列字段绑定(json)</div>
-      <input id="columnsFile" type="file" onChange={(e)=>changeFile(e)} />
-      <div>数据绑定(json)</div>
-      <input id="tableFile" type="file" onChange={(e)=>changeDataFile(e)} /> */}
-      
+      {keys&&keys.length&&keys.map((key:any,index:number)=>{
+          let ref:any = React.createRef()
+          return (
+          typeof (componentChilren[key]) === "string"?
+         <div key={index}>
+           <Input placeholder={"請輸入"+key} ref={ref} defaultValue={componentChilren[key]} style={{marginTop:'5px'}} onChange={(e)=>changeValue(e,key)}></Input>
+        </div>:
+        ""
+        )
+      })}
+      <br/>
+      <Button type="primary" onClick={saveAttr}>保存</Button>
     </div>
   );
 }
